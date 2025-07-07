@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <script type="module" src="data.js"></script>
+    <script type = "module" src="main.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', Arial, sans-serif;
+            background: #f4f6fb;
+            color: #222;
+        }
+        main {
+            display: flex;
+            min-height: 100vh;
+        }
+        .sidebar {
+            background: #232946;
+            color: #fff;
+            width: 300px;
+            min-width: 220px;
+            padding: 2rem 1.5rem;
+            box-shadow: 2px 0 12px rgba(35,41,70,0.08);
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar h1 {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+        .projects {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+        .project {
+            background: #393e6b;
+            border-radius: 8px;
+            padding: 1rem 0.8rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .project-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #eebbc3;
+        }
+        .todo-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-left: 1.2rem;
+        }
+        .todo-item {
+            background: #232946;
+            border-left: 3px solid #eebbc3;
+            border-radius: 5px;
+            padding: 0.5rem 0.8rem;
+            font-size: 1rem;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .doneT{
+            background:rgb(4, 96, 4);
+        }
+        .todo-item:hover {
+            background: #2d325a;
+        }
+
+        .mainContent {
+            flex: 1;
+            background: #fff;
+            padding: 2.5rem 3rem;
+            border-radius: 0 12px 12px 0;
+            box-shadow: 0 2px 16px rgba(35,41,70,0.06);
+            margin: 2rem 2rem 2rem 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        .todo-details {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #f4f6fb;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(35,41,70,0.05);
+            padding: 2rem 2.5rem;
+        }
+        .todo-details h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #232946;
+        }
+        .todo-details label {
+            font-weight: 500;
+            color: #393e6b;
+        }
+        .todo-details .desc {
+            margin-bottom: 1.5rem;
+            color: #393e6b;
+        }
+        .todo-details .due-date {
+            margin-bottom: 1.5rem;
+            color: #393e6b;
+        }
+        .todo-details .done {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .todo-details input[type="checkbox"] {
+            accent-color: #eebbc3;
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+    </style>
+    
+    
+    
+</head>
+<body>
+    <dialog id="addProject" style="border:none; border-radius:12px; box-shadow:0 4px 32px rgba(35,41,70,0.18); padding:2rem 2.5rem; background:#fff; max-width:350px; width:90%; font-family:'Roboto', Arial, sans-serif;">
+        
+            <p style="margin:0;">
+                <label for="projectNameInput" style="font-weight:600; color:#232946; display:block; margin-bottom:0.5rem;">
+                    Enter the Project Name
+                </label>
+                <input id="projectNameInput" type="text" value="Untitled" style="width:100%; padding:0.6rem 1rem; border-radius:6px; border:1px solid #eebbc3; font-size:1rem; background:#f4f6fb; color:#232946; outline:none;"/>
+            </p>
+            <div style="display:flex; justify-content:flex-end;">
+                <button id="confirmBtn" style="background:#eebbc3; color:#232946; border:none; border-radius:6px; padding:0.6rem 1.5rem; font-size:1rem; font-weight:600; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.08); transition:background 0.2s;">
+                    Confirm
+                </button>
+            </div>
+
+    </dialog>
+    <dialog id="addTodoItem" style="border:none; border-radius:12px; box-shadow:0 4px 32px rgba(35,41,70,0.18); padding:2rem 2.5rem; background:#fff; max-width:350px; width:90%; font-family:'Roboto', Arial, sans-serif;">
+        
+            <p style="margin:0;">
+                <label for="projectNameInput" style="font-weight:600; color:#232946; display:block; margin-bottom:0.5rem;">
+                    Enter details of the Todo Item
+                </label>
+                <input id="todoTitleInput" type="text" placeholder="Title" required style="width:100%; padding:0.6rem 1rem; border-radius:6px; border:1px solid #eebbc3; font-size:1rem; background:#f4f6fb; color:#232946; outline:none; margin-bottom:0.7rem;"/>
+                <textarea id="todoDescInput" placeholder="Description" rows="3" style="width:100%; padding:0.6rem 1rem; border-radius:6px; border:1px solid #eebbc3; font-size:1rem; background:#f4f6fb; color:#232946; outline:none; margin-bottom:0.7rem;"></textarea>
+                <input id="todoDueDateInput" type="date" required style="width:100%; padding:0.6rem 1rem; border-radius:6px; border:1px solid #eebbc3; font-size:1rem; background:#f4f6fb; color:#232946; outline:none; margin-bottom:0.7rem;"/>
+                <label style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.7rem;">
+                    <input id="todoDoneInput" type="checkbox" style="accent-color:#eebbc3; width:1.2rem; height:1.2rem;"/>
+                    Mark as done
+                </label>
+            </p>
+            <div style="display:flex; justify-content:flex-end;">
+                <button id="confirmBtnTodo" style="background:#eebbc3; color:#232946; border:none; border-radius:6px; padding:0.6rem 1.5rem; font-size:1rem; font-weight:600; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.08); transition:background 0.2s;">
+                    Confirm
+                </button>
+            </div>
+  
+    </dialog>
+    <main>
+        <div id="sidebar" class="sidebar">
+            <h1>Projects</h1>
+            <button id="addProjectBtn" title="Add Project" style="background:#eebbc3; color:#232946; border:none; border-radius:50%; width:40px; height:40px; font-size:2rem; font-weight:bold; cursor:pointer; margin-bottom:1.5rem; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,0.08); transition:background 0.2s;">
+                +
+            </button>
+            <div id="projectContainer" class="projects">
+                <div class="project">
+                    <div class="project-title">
+                        Science
+                        <span style="float:right; color:#eebbc3; cursor:pointer; font-weight:bold;" title="Delete Project">&#10005;</span>
+                    </div>
+                    <div class="todo-list">
+                        <div class="todo-item done">Read Chapter 1</div>
+                        <div class="todo-item">Complete Lab Report</div>
+                        <div class="todo-item">Review Notes</div>
+                    </div>
+                </div>
+                <div class="project">
+                    <div class="project-title">Math</div>
+                    <div class="todo-list">
+                        <div class="todo-item">
+                            Finish Homework
+                            <span style="float:right; color:#eebbc3; cursor:pointer; font-weight:bold;" title="Delete">&#10005;</span>
+                        </div>
+                        <div class="todo-item">
+                            Practice Problems
+                            <span style="float:right; color:#eebbc3; cursor:pointer; font-weight:bold;" title="Delete">&#10005;</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="mainContent" class="mainContent">
+            <div class="todo-details">
+                <h2 class = "title">Choose A Todo Item</h2>
+                <div class="desc">
+                    <label>Description:</label>
+                    <div></div>
+                </div>
+                <div class="due-date">
+                    <label>Due Date:</label>
+                    <div>2024-06-15</div>
+                </div>
+                <div class="done">
+                    <input type="checkbox" id="done" />
+                    <label for="done">Mark as done</label>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; margin-top: 1.5rem;">
+                    <button id="updateTodoBtn" style="background:#eebbc3; color:#232946; border:none; border-radius:6px; padding:0.7rem 2rem; font-size:1rem; font-weight:600; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.08); transition:background 0.2s;">
+                        Update Todo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+
+    <dialog id="updateTodoDialog" style="border:none; border-radius:12px; box-shadow:0 4px 32px rgba(35,41,70,0.18); padding:2rem 2.5rem; background:#fff; max-width:350px; width:90%; font-family:'Roboto', Arial, sans-serif;">
+       
+            <label for="updateTodoTitle" style="font-weight:600; color:#232946; display:block; margin-bottom:0.5rem;">
+                Title
+            </label>
+            <input id="updateTodoTitle" type="text" required style="width:100%; padding:0.6rem 1rem; border-radius:6px; border:1px solid #eebbc3; font-size:1rem; background:#f4f6fb; color:#232946; outline:none; margin-bottom:0.7rem;"/>
+
+            <label for="updateTodoDesc" style="font-weight:600; color:#232946; display:block; margin-bottom:0.5rem;">
+                Description
+            </label>
+            <textarea id="updateTodoDesc" rows="3" style="width:100%; padding:0.6rem 1rem; border-radius:6px; border:1px solid #eebbc3; font-size:1rem; background:#f4f6fb; color:#232946; outline:none; margin-bottom:0.7rem;"></textarea>
+
+            <label for="updateTodoDueDate" style="font-weight:600; color:#232946; display:block; margin-bottom:0.5rem;">
+                Due Date
+            </label>
+            <input id="updateTodoDueDate" type="date" required style="width:100%; padding:0.6rem 1rem; border-radius:6px; border:1px solid #eebbc3; font-size:1rem; background:#f4f6fb; color:#232946; outline:none; margin-bottom:0.7rem;"/>
+
+            <label style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.7rem;">
+                <input id="updateTodoDone" type="checkbox" style="accent-color:#eebbc3; width:1.2rem; height:1.2rem;"/>
+                Mark as done
+            </label>
+
+            <div style="display:flex; justify-content:flex-end;">
+                <button id="updateTodoConfirmBtn" type="submit" style="background:#eebbc3; color:#232946; border:none; border-radius:6px; padding:0.6rem 1.5rem; font-size:1rem; font-weight:600; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.08); transition:background 0.2s;">
+                    Update
+                </button>
+            </div>
+    
+    </dialog>
+</body>
+</html>
