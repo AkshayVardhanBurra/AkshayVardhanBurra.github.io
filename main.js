@@ -62,7 +62,10 @@ function updateMainScreen(todoItem){
         if(currentTodoItem != null){
             todoItem.done = e.target.checked;
 
-            document.getElementById(todoItem.id).classList.toggle("doneT");
+            let card = document.getElementById(todoItem.id);
+            if(card != null){
+                card.classList.toggle("doneT");
+            }
             let project = todoItem.project;
             updateProjectCard(project);
 

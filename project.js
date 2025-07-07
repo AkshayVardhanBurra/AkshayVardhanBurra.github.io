@@ -10,7 +10,7 @@ export default class Project{
     title(){
        let sp = this.name.split(" ");
        let result = "";
-       for(let i = 0; i < sp.length; i++){
+       for(let i = 0; i < sp.length - 1; i++){
             if(sp[i].length == 1){
                 result += sp[i].toUpperCase() + " ";
             }else{
@@ -23,7 +23,7 @@ export default class Project{
             }else{
                 result += sp[sp.length - 1].substring(0,1).toUpperCase() + sp[sp.length-1].substring(1,sp[sp.length-1].length).toLowerCase();
         }
-
+        console.log(result);
         return result;
     }
 
