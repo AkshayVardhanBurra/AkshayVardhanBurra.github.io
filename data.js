@@ -76,7 +76,7 @@ export function saveList(key, items){
 
 export function loadList(key, list){
     let parseText = localStorage.getItem(key);
-    if(parseText.length === 0){
+    if(parseText == null || parseText.length === 0){
         return;
     }
     const jsonList = JSON.parse(parseText);
